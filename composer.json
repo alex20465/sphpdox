@@ -1,5 +1,5 @@
 {
-    "name": "sphpdox/sphpdox",
+    "name": "alex20465/sphpdox",
     "type": "library",
     "description": "PHPDoc to Sphinx phpdomain tool",
     "keywords": ["documentation", "phpdoc", "rst", "sphinx"],
