@@ -13,8 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ClassElement extends Element
 {
 
-    protected $nameReferences;
-
     /**
      * @var ReflectionClass
      */
@@ -29,8 +27,6 @@ class ClassElement extends Element
     public function __construct(ReflectionClass $reflection)
     {
         parent::__construct($reflection);
-
-        $this->nameReferences = [];
     }
 
     public function getPath()

@@ -64,10 +64,31 @@ abstract class Element
         return $output;
     }
 
-    protected function create_reference($name)
+    protected function createReference($type=null)
     {
-        $name = str_replace('\\', '-', $nama);
 
-        return ":ref:`$name`";
+
+        if( !$type ) $type = $this->getTypeModifier();
+
+        $parts = explode('|', $type);
+        $additional = [];
+
+        if( count($parts) > 1 ) {
+            foreach ($parts as $key => $part) {
+                $additional[] = $this->createReference($part);
+            }
+
+            return join(' | ', $additional);
+        }
+
+        $clearNamespace = preg_replace("/[^\w\\\]/", '', $type);
+
+        $referenceName = strtolower(
+            trim( str_replace("\\", "-", $clearNamespace), '-' ) );
+
+        $type = trim( $type, "\\" );
+        $label = str_replace("\\", "\\\\", $type);
+
+        return ":ref:`\\\\{$label} <$referenceName>`";
     }
 }

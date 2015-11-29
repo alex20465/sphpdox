@@ -65,7 +65,10 @@ class MethodElement extends Element
 
             if (isset($params[$name])) {
                 if ($params[$name]['type'] == null && $type) {
-                    $params[$name]['type'] = $type;
+
+                    $params[$name]['type'] = $this->createReference($type);
+                } else if ( !$params[$name]['type'] !== null ) {
+                    $params[$name]['type'] = $this->createReference($params[$name]['type']);
                 }
                 if ($comment) {
                     $params[$name]['comment'] = $comment;
@@ -156,7 +159,8 @@ class MethodElement extends Element
 
             $comment = implode(' ', array_slice($parts, 2));
 
-            $string = ':returns:';
+            if( $type )
+                $type = $this->createReference($type);
 
             return sprintf(
                 ':returns: %s%s',

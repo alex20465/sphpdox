@@ -30,7 +30,6 @@ class PropertyElement extends Element
         $string = sprintf(".. php:attr:: %s\n\n", $this->reflection->getName());
         $string .= $this->getModifierLine();
 
-
         $string .= $this->indent($parser->getDescription(), 4, true);
 
         return $string;
@@ -41,14 +40,7 @@ class PropertyElement extends Element
         $line = '';
         $line .= $this->getVisibilityModifier() . ' ';
 
-        $clearNamespace = preg_replace("/[^\w\\\]/", '', $this->getTypeModifier());
-
-        $referenceName = strtolower(
-            trim( str_replace("\\", "-", $clearNamespace), '-' )
-        );
-        $label = str_replace("\\", "\\\\", $this->getTypeModifier());
-
-        $line.= ":ref:`{$label} <$referenceName>`";
+        $line.= $this->createReference();
         $line = trim($line);
 
         if ($line) {
