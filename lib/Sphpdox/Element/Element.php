@@ -91,4 +91,16 @@ abstract class Element
 
         return ":ref:`\\\\{$label} <$referenceName>`";
     }
+
+    protected function propertyFilter( $prop )
+    {
+        var_dump($prop->get);
+        exit();
+        return false;
+        if( $this->reflection->getName() == $prop->getDeclarationClassName() ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

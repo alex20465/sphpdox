@@ -14,6 +14,11 @@ class ClassElement extends Element
 {
 
     /**
+     * @var boolean
+     */
+    public $skip_inherited_attr;
+
+    /**
      * @var ReflectionClass
      */
     protected $reflection;
@@ -27,6 +32,8 @@ class ClassElement extends Element
     public function __construct(ReflectionClass $reflection)
     {
         parent::__construct($reflection);
+
+        $this->skip_inherited_attr = true;
     }
 
     public function getPath()
@@ -107,23 +114,47 @@ class ClassElement extends Element
 
     protected function getConstants()
     {
+        $const = $this->reflection->getConstantReflections();
+        $classname = $this->reflection->getName();
+
+        if( $this->skip_inherited_attr )
+            $const = array_filter($const, function($prop) use ($classname){
+                return $classname == $prop->getDeclaringClassName();
+            });
+
         return array_map(function ($v) {
             return new ConstantElement($v);
-        }, $this->reflection->getConstantReflections());
+        }, $const);
     }
 
     protected function getProperties()
     {
+        $props = $this->reflection->getProperties();
+        $classname = $this->reflection->getName();
+
+        if( $this->skip_inherited_attr )
+            $props = array_filter($props, function($prop) use ($classname){
+                return $classname == $prop->getDeclaringClassName();
+            });
+
         return array_map(function ($v) {
             return new PropertyElement($v);
-        }, $this->reflection->getProperties());
+        }, $props);
     }
 
     protected function getMethods()
     {
+        $methods = $this->reflection->getMethods();
+        $classname = $this->reflection->getName();
+
+        if( $this->skip_inherited_attr )
+            $methods = array_filter($methods, function($prop) use ($classname){
+                return $classname == $prop->getDeclaringClassName();
+            });
+
         return array_map(function ($v) {
             return new MethodElement($v);
-        }, $this->reflection->getMethods());
+        }, $methods);
     }
 
     public function getNamespaceElement()

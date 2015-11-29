@@ -39,7 +39,6 @@ class PropertyElement extends Element
     {
         $line = '';
         $line .= $this->getVisibilityModifier() . ' ';
-
         $line.= $this->createReference();
         $line = trim($line);
 
