@@ -182,9 +182,9 @@ class ClassElement extends Element
             return "";
         }
 
-        $refs = join(' => ', $parent_entries);
-        $title = "**Inheritance Hierarchy:**\n";
+        $refs = join(' » ', $parent_entries);
+        $title = "Inheritance:";
 
-        return "$title$refs\n\n";
+        return "$title\n     $refs\n\n";
     }
 }
